@@ -42,14 +42,8 @@ const REGISTER = async (req, res) => {
 	const token = generateToken(password);
 
 	try {
-		// Default active status
 		const active_status = true;
-		// For handling users login time
-		const new_date = new Date();
-		const year = new_date.getFullYear();
-		const month = new_date.getMonth().toString().padStart(2, '0');
-		const day = new_date.getDay().toString().padStart(2, '0');
-		const last_login = `${year}.${month}.${day}`;
+		const last_login = new Date();
 
 		if (!username) throw new Error('Username is required');
 		if (!email) throw new Error('Email is required');

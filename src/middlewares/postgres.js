@@ -1,6 +1,5 @@
 import pg from 'pg';
 
-// Assuming you have configured your pool somewhere before using it
 const pool = new pg.Pool({
 	host: 'isabelle.db.elephantsql.com',
 	user: 'vqrjaebn',
