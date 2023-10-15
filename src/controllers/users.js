@@ -80,7 +80,7 @@ const REGISTER = async (req, res) => {
 };
 
 const LOGIN = async (req, res) => {
-	const { username, password } = req.body;
+	const { email, password } = req.body;
 
 	const users = await req.fetch(`select * from users`);
 
@@ -92,7 +92,7 @@ const LOGIN = async (req, res) => {
 
 	try {
 		const validateUser = users.find((item) => {
-			return item.username == username;
+			return item.email == email;
 		});
 
 		if (validateUser) {
@@ -105,6 +105,7 @@ const LOGIN = async (req, res) => {
 			result
 				? res.send({
 						status: 200,
+						user: validateUser,
 						token: token,
 				  })
 				: 'No user';
