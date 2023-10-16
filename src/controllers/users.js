@@ -123,4 +123,22 @@ const LOGIN = async (req, res) => {
 	}
 };
 
-export default { GET, REGISTER, LOGIN };
+const DELETE = (req, res) => {
+	const { deletedUsers } = req.body;
+
+	const deleteFunc = deletedUsers.forEach((item) => {
+		req.fetch(
+			`DELETE FROM users
+		WHERE user_id IN ($1);
+		`,
+			item,
+		);
+	});
+
+	res.send({
+		status: 200,
+		message: 'Users successfully deleted from database!!!',
+	});
+};
+
+export default { GET, REGISTER, LOGIN, DELETE };
