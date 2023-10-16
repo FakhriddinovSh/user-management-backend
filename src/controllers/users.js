@@ -123,22 +123,39 @@ const LOGIN = async (req, res) => {
 	}
 };
 
-const DELETE = (req, res) => {
+// const DELETE = async (req, res) => {
+//   const { deletedUsers } = req.body;
+
+//   try {
+//     const placeholders = deletedUsers
+//       .map((id, index) => `$${index + 1}`)
+//       .join(', ');
+
+//     // Assuming deletedUsers is an array of strings
+//     await req.fetch(
+//       `DELETE FROM users
+//        WHERE user_id IN (${placeholders})`,
+//       deletedUsers
+//     );
+
+//     res.send({
+//       status: 200,
+//       message: 'Users successfully deleted from the database!!!',
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+
+const DELETE = async (req, res) => {
 	const { deletedUsers } = req.body;
 
-	const deleteFunc = deletedUsers.forEach((item) => {
-		req.fetch(
-			`DELETE FROM users
-		WHERE user_id IN ($1);
-		`,
-			item,
-		);
-	});
+	const result = deletedUsers.map((item) =>
+		req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
+	);
 
-	res.send({
-		status: 200,
-		message: 'Users successfully deleted from database!!!',
-	});
+	res.send('Users successfully deleted!!!');
 };
 
 export default { GET, REGISTER, LOGIN, DELETE };
