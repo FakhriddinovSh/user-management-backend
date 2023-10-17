@@ -150,29 +150,11 @@ const LOGIN = async (req, res) => {
 
 const DELETE = async (req, res) => {
 	try {
-		const { deletedUsers } = req.body;
-		const parsed = JSON.parse(deletedUsers);
+		const arr = req.body;
 
-		const result = await Promise.all(
-			parsed.map(async (item) => {
-				try {
-					const query = 'DELETE FROM USERS WHERE USER_ID = ?';
-					console.log('Executing query:', query);
-
-					// Assuming you're using a database library that supports parameterized queries
-					const response = await req.fetch(query, [item]);
-					console.log('Query result:', response);
-					res.status(200).json({});
-				} catch (error) {
-					console.error('Query error:', error.message);
-					return { error: error.message };
-				}
-			}),
-		);
-
-		res.send({});
+		res.send(arr);
 	} catch (error) {
-		res.status(500).send({
+		res.send({
 			error: error.message,
 		});
 	}
