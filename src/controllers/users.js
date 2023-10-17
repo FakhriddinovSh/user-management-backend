@@ -162,7 +162,7 @@ const DELETE = async (req, res) => {
 					// Assuming you're using a database library that supports parameterized queries
 					const response = await req.fetch(query, [item]);
 					console.log('Query result:', response);
-					return response;
+					res.status(200).json({});
 				} catch (error) {
 					console.error('Query error:', error.message);
 					return { error: error.message };
