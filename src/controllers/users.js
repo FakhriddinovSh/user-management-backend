@@ -151,10 +151,12 @@ const LOGIN = async (req, res) => {
 const DELETE = async (req, res) => {
 	try {
 		const { deletedUsers } = req.body;
-
-		const result = await deletedUsers.map((item) =>
+		const parsed = JSON.parse(deletedUsers);
+		const result = parsed.map((item) =>
 			req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
 		);
+
+		res.send({});
 	} catch (error) {
 		res.send({
 			error: error.message,
