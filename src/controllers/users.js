@@ -149,11 +149,23 @@ const LOGIN = async (req, res) => {
 // };
 
 const DELETE = async (req, res) => {
-	const { deletedUsers } = req.body;
+	try {
+		const { deletedUsers } = req.body;
 
-	const result = deletedUsers.map((item) =>
-		req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
-	);
+		const parsed = JSON.parse(deletedUsers);
+
+		const result = parsed.map((item) =>
+			req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
+		);
+
+		res.send({
+			message: 'User successfully deleted from database!!!',
+		});
+	} catch (error) {
+		res.send({
+			error: error.message,
+		});
+	}
 };
 
 export default { GET, REGISTER, LOGIN, DELETE };
