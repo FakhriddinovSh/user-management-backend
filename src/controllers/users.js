@@ -152,14 +152,9 @@ const DELETE = async (req, res) => {
 	try {
 		const { deletedUsers } = req.body;
 		const parsed = JSON.parse(deletedUsers);
-		const result = parsed.map((item) =>
-			req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
-		);
 
-		res.send(
-			JSON.stringify({
-				message: 'User successfully deleted from database!!!',
-			}),
+		const result = await parsed.map((item) =>
+			req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
 		);
 	} catch (error) {
 		res.send({
