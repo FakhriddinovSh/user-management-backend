@@ -152,27 +152,19 @@ const DELETE = async (req, res) => {
 	try {
 		const arr = req.body;
 
-		if (typeof arr == 'string') {
-			const parsed = JSON.parse(arr);
-			const result = await parsed.map((item) =>
-				req.fetch(`DELETE FROM users WHERE USER_ID = ${item}`),
-			);
+		const result = await arr.map(async (item) => {
+			await req.query('DELETE FROM users WHERE USER_ID = @userId', {
+				replacements: { userId: item },
+				type: QueryTypes.DELETE,
+			});
+		});
 
-			return res.send({
-				status: 200,
-				message: 'User successfully deleted',
-			});
-		} else {
-			const result = await arr.map((item) =>
-				req.fetch(`DELETE FROM users WHERE USER_ID = ${item}`),
-			);
-			return res.send({
-				status: 200,
-				message: 'User successfully deleted',
-			});
-		}
+		return res.send({
+			status: 200,
+			message: 'User(s) successfully deleted',
+		});
 	} catch (error) {
-		res.send({
+		res.status(500).send({
 			error: error.message,
 		});
 	}
