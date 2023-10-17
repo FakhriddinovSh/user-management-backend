@@ -151,9 +151,8 @@ const LOGIN = async (req, res) => {
 const DELETE = async (req, res) => {
 	try {
 		const { deletedUsers } = req.body;
-		const parsed = JSON.parse(deletedUsers);
 
-		const result = await parsed.map((item) =>
+		const result = await deletedUsers.map((item) =>
 			req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
 		);
 	} catch (error) {
