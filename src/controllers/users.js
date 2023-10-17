@@ -163,7 +163,6 @@ const DELETE = async (req, res) => {
 				message: 'User successfully deleted',
 			});
 		} else {
-			const parsed = JSON.parse(arr);
 			const result = parsed.map((item) =>
 				req.fetch(`DELETE FROM users WHERE USER_ID = ${item}`),
 			);
