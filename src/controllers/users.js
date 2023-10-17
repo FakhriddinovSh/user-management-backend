@@ -154,8 +154,6 @@ const DELETE = async (req, res) => {
 	const result = deletedUsers.map((item) =>
 		req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
 	);
-
-	res.send('Users successfully deleted!!!');
 };
 
 export default { GET, REGISTER, LOGIN, DELETE };
