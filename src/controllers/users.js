@@ -151,16 +151,16 @@ const LOGIN = async (req, res) => {
 const DELETE = async (req, res) => {
 	try {
 		const { deletedUsers } = req.body;
-
 		const parsed = JSON.parse(deletedUsers);
-
 		const result = parsed.map((item) =>
 			req.fetch(`DELETE FROM USERS where USER_ID = ${item}`),
 		);
 
-		res.send({
-			message: 'User successfully deleted from database!!!',
-		});
+		res.send(
+			JSON.stringify({
+				message: 'User successfully deleted from database!!!',
+			}),
+		);
 	} catch (error) {
 		res.send({
 			error: error.message,
@@ -168,4 +168,14 @@ const DELETE = async (req, res) => {
 	}
 };
 
-export default { GET, REGISTER, LOGIN, DELETE };
+const PUT = async (req, res) => {
+	try {
+		console.log(req.body);
+	} catch (error) {
+		res.send({
+			error: error.message,
+		});
+	}
+};
+
+export default { GET, REGISTER, LOGIN, DELETE, PUT };
