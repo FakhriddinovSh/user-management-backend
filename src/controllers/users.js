@@ -123,31 +123,6 @@ const LOGIN = async (req, res) => {
 	}
 };
 
-// const DELETE = async (req, res) => {
-//   const { deletedUsers } = req.body;
-
-//   try {
-//     const placeholders = deletedUsers
-//       .map((id, index) => `$${index + 1}`)
-//       .join(', ');
-
-//     // Assuming deletedUsers is an array of strings
-//     await req.fetch(
-//       `DELETE FROM users
-//        WHERE user_id IN (${placeholders})`,
-//       deletedUsers
-//     );
-
-//     res.send({
-//       status: 200,
-//       message: 'Users successfully deleted from the database!!!',
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// };
-
 const DELETE = async (req, res) => {
 	try {
 		const arr = req.body;
@@ -177,9 +152,18 @@ const DELETE = async (req, res) => {
 		});
 	}
 };
-const PUT = async (req, res) => {
+const BLOCK = async (req, res) => {
 	try {
-		console.log(req.body);
+		const { blockUser } = req.body;
+		const edit = blockUser.forEach((item) =>
+			req.fetch(
+				` update users set active_status = false where user_id = ${item}`,
+			),
+		);
+		res.send({
+			status: 200,
+			message: 'User Successfully updated',
+		});
 	} catch (error) {
 		res.send({
 			error: error.message,
@@ -187,4 +171,23 @@ const PUT = async (req, res) => {
 	}
 };
 
-export default { GET, REGISTER, LOGIN, DELETE, PUT };
+const UNBLOCK = async (req, res) => {
+	try {
+		const { blockUser } = req.body;
+		const edit = blockUser.forEach((item) =>
+			req.fetch(
+				` update users set active_status = true where user_id = ${item}`,
+			),
+		);
+		res.send({
+			status: 200,
+			message: 'User Successfully updated',
+		});
+	} catch (error) {
+		res.send({
+			error: error.message,
+		});
+	}
+};
+
+export default { GET, REGISTER, LOGIN, DELETE, BLOCK, UNBLOCK };
